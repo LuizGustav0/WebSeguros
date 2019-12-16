@@ -1,0 +1,361 @@
+﻿@model WebSeguros.Models.Carro
+
+
+@{
+    ViewData["Title"] = "2 de 3";
+}
+
+<style>
+    .col-centered {
+        float: none;
+        margin: 0 auto;
+    }
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script>
+    function somenteNumeros(e) {
+        var charCode = e.charCode ? e.charCode : e.keyCode;
+        // charCode 8 = backspace
+        // charCode 9 = tab
+        if (charCode != 8 && charCode != 9) {
+            // charCode 48 equivale a 0
+            // charCode 57 equivale a 9
+            if (charCode < 48 || charCode > 57) {
+                return false;
+            }
+        }
+    }
+</script>
+
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="how-it-works d-flex justify-content-left text-center">
+                <div class="step">
+                    <span class="number" style="background-color:#66ff33;"><span>01</span></span>
+                    <span class="caption">Dados pessoais</span>
+                </div>
+                <div class="step">
+                    <span class="number" style="background-color:#ffff80;"><span>02</span></span>
+                    <span class="caption"><b>Dados do veículo</b></span>
+                </div>
+                <div class="step">
+                    <span class="number"><span>03</span></span>
+                    <span class="caption">Enviar fotos do veículo</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br /><br />
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h4 class="text-center">Dados do veículo</h4>
+            <hr />
+            <div class="row dados">
+                <div class="col-md-6 col-centered ">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="TrabalhaVei" class="control-label"></label><br />
+                            Sim @Html.RadioButton("TrabalhaVei", "Sim", true)
+                            Não @Html.RadioButton("TrabalhaVei", "Não")
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Garagem" class="control-label"></label><br />
+                            Sim @Html.RadioButton("Garagem", "Sim", true)
+                            Não @Html.RadioButton("Garagem", "Não")
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="TipoSeguro" class="control-label"></label><br />
+                            Total @Html.RadioButton("TipoSeguro", "Total", true)
+                            Parcial @Html.RadioButton("TipoSeguro", "Parcial")
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            <label asp-for="Marca" class="control-label"></label>
+                            <input asp-for="Marca" class="form-control" style="display:none" />
+                            <select id="Marcas" class="marca form-control"></select>
+                            <span asp-validation-for="Marca" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Modelo" class="control-label"></label>
+                            <input asp-for="Modelo" style="display:none" class="form-control" />
+                            <select id="Modelos" class="modelo form-control"></select>
+                            <span asp-validation-for="Modelo" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Ano" class="control-label"></label>
+                            <input asp-for="Ano" style="display:none" class="form-control" />
+                            <select id="Ano2" class="ano form-control"></select>
+                            <span asp-validation-for="Ano" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Placa" class="control-label"></label>
+                            <input asp-for="Placa" class="form-control" onkeydown="javascript: fMasc( this, mPlaca );" />
+                            <span asp-validation-for="Placa" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Cor" class="control-label"></label>
+                            <input asp-for="Cor" style="display:none" class="form-control" value="Amarelo" />
+                            <select id="Cor2" class="cor form-control">
+                                <option value="Amarelo">Amarelo</option>
+                                <option value="Azul">Azul</option>
+                                <option value="Bege">Bege</option>
+                                <option value="Branco">Branco</option>
+                                <option value="Bronze">Bronze</option>
+                                <option value="Cinza">Cinza</option>
+                                <option value="Dourado">Dourado</option>
+                                <option value="Indefinida">Indefinida</option>
+                                <option value="Laranja">Laranja</option>
+                                <option value="Marrom">Marrom</option>
+                                <option value="Prata">Prata</option>
+                                <option value="Preto">Preto</option>
+                                <option value="Rosa">Rosa</option>
+                                <option value="Roxo">Roxo</option>
+                                <option value="Verde">Verde</option>
+                                <option value="Vermelho">Vermelho</option>
+                                <option value="Vinho">Vinho</option>
+                            </select>
+                            <span asp-validation-for="Cor" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ValorVeiculo" class="control-label"></label>
+                            <input asp-for="ValorVeiculo" class="form-control" style="display:none" />
+                            <input id="ValorVeiculo2" class="form-control" readonly="@(true)" />
+                            <span asp-validation-for="ValorVeiculo" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ValorSeguro" class="control-label"></label>
+                            <input asp-for="ValorSeguro" class="form-control" style="display:none" />
+                            <input id="ValorSeguro2" class="form-control" readonly="@(true)" />
+                            <span asp-validation-for="ValorSeguro" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="IdCliente" style="display:none;" class="control-label"></label>
+                            <input asp-for="IdCliente" style="display:none;" class="form-control" />
+                            <span asp-validation-for="IdCliente" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Próximo" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        var idcliente = parseInt(getUrlParameter('c'));
+        $("#IdCliente").val(idcliente);
+
+        $("select.marca").change(function () {
+            var selectedMarca = $(this).find('option:selected').text();
+            $("#Marca").val(selectedMarca);
+        });
+
+        $("select.modelo").change(function () {
+            var selectedModelo = $(this).find('option:selected').text();
+            $("#Modelo").val(selectedModelo);
+        });
+
+        $("select.ano").change(function () {
+            var selectedAno = $(this).find('option:selected').text();
+            $("#Ano").val(selectedAno);
+        });
+
+
+
+        $("select.cor").change(function () {
+            var selectedCor = $(this).find('option:selected').text();
+            $("#Cor").val(selectedCor);
+        });
+
+    });
+
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        var urlBase = "//fipe.parallelum.com.br/api/v1/carros/marcas";
+
+        /** Marcas**/
+        $.getJSON(urlBase, function (data) {
+            var items = ["<option value=\"\">ESCOLHA UMA MARCA</option>"];
+            $.each(data, function (key, val) {
+                items += ("<option value='" + val.codigo + "'>" + val.nome + "</option>");
+            });
+            $("#Marcas").html(items);
+
+
+        });
+
+        /** Veiculo**/
+        $("#Marcas").change(function () {
+            $.getJSON(urlBase + "/" + jQuery("#Marcas").val() + "/" + "modelos", function (data) {
+                var items = ["<option value=\"\">ESCOLHA UM VEICULO</option>"];
+                $.each(data.modelos, function (key, val) {
+                    items += ("<option value='" + val.codigo + "'>" + val.nome + "</option>");
+                });
+                $("#Modelos").html(items);
+            });
+        });
+
+        /** Ano**/
+        $("#Modelos").change(function () {
+            $.getJSON(urlBase + "/" + jQuery("#Marcas").val() + "/" + "modelos" + "/" + jQuery("#Modelos").val() + "/" + "anos", function (data) {
+                var items = ["<option value=\"\">ESCOLHA O ANO</option>"];
+                $.each(data, function (key, val) {
+                    console.log(data)
+                    items += ("<option value='" + val.codigo + "'>" + val.nome.replace(/[^0-9]/g, '') + "</option>");
+                });
+                $("#Ano2").html(items);
+            });
+        });
+
+        /* Valor */
+        $("#Ano2").change(function () {
+            var json;
+
+            $.getJSON(urlBase + "/" + jQuery("#Marcas").val() + "/" + "modelos" + "/" + jQuery("#Modelos").val() + "/" + "anos" + "/" + jQuery("#Ano2").val(), function (data) {
+                //var items = ["<option value=\"\">ESCOLHA O ANO</option>"];
+                $.each(data, function (key, val) {
+                    console.log(data)
+                    json = data;
+                });
+                console.log(json.Valor);
+                var valor = json.Valor.replace("R", "").replace("$", "").replace(" ", "").replace(".", "").replace(",", ".");
+                $("#ValorVeiculo2").val(json.Valor);
+                $("#ValorVeiculo").val(valor);
+
+                //Calcular valor do seguro
+                var valorSeguro = 0;
+
+                var porcVeiculo = valor * 0.02;
+                console.log(porcVeiculo);
+
+                var idadeCondutor = parseInt(getUrlParameter('i'));
+                var valorIdade = 0
+
+                var sexoCondutor = getUrlParameter('s');
+                var valorSexo = 0;
+
+                var civilCondutor = getUrlParameter('e');
+                var valorCivil = 0;
+
+                var anoVeiculo = parseInt($("#vendaMediaMensal"));
+                var anoAtual = new Date().getFullYear();
+                var valorAno = 0;
+
+                var trabalhaVei = $("TrabalhaVei").val(valor);
+                var valorTrabalha = 0;
+
+                var garagem = $("Garagem").val(valor);
+                var valorGaragem = 0;
+
+                var tipoPlano = $("TipoSeguro").val(valor);
+                var valorPlano = 0;
+
+                //calculo idade
+                if (idadeCondutor < 24) {
+                    valorIdade = valor * 0.02;
+                } else {
+                    valorIdade = valor * 0.01;
+                }
+                console.log(valorIdade);
+
+                //calculo sexo
+                if (sexoCondutor == "Feminino") {
+                    valorSexo = 50
+                }
+                else {
+                    valorSexo = 100
+                }
+                console.log(valorSexo);
+
+                //calculo   estado civil
+                if (civilCondutor == "Solteiro(a)") {
+                    valorCivil = 100
+                } else {
+                    valorCivil = 50
+                }
+                console.log(valorCivil);
+
+                //valor ano
+                if (anoVeiculo - anoAtual > 10) {
+                    valorAno = 200
+                }
+                else {
+                    valorAno = 100
+                }
+                console.log(valorAno);
+
+                //Trabalha veiculo
+                if (trabalhaVei == "Sim") {
+                    valorTrabalha = 200;
+                }
+                else {
+                    valorTrabalha = 100;
+                }
+                console.log(valorTrabalha);
+
+                //Garagem
+                if (garagem == "Sim") {
+                    valorGaragem = 50;
+                }
+                else {
+                    valorGaragem = 100;
+                }
+                console.log(valorGaragem);
+
+                //Tipo plano
+                if (tipoPlano == "Total") {
+                    valorPlano = 200;
+                }
+                else {
+                    valorPlano = 100;
+                }
+                console.log(valorPlano);
+
+                valorSeguro = porcVeiculo + valorIdade + valorSexo + valorCivil + valorAno + valorTrabalha + valorGaragem + valorPlano;
+
+                //alert(valorSeguro);
+                var novovalor = parseFloat(valorSeguro.toFixed(2));
+                $("#ValorSeguro").val(novovalor);
+                var novovalorSTR = String(novovalor).replace(".", ",");
+                $("#ValorSeguro2").val("R$ " + novovalorSTR);
+
+                //Direcionar para parte 2
+
+            });
+        });
+
+    });
+</script>
+
+
+<script>
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
+</script>

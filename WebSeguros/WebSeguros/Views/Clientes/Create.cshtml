@@ -1,0 +1,273 @@
+﻿@model WebSeguros.Models.Cliente
+
+@{
+    ViewData["Title"] = "1 de 3";
+}
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="~/css/bootstrap-datepicker.css">
+<link rel="stylesheet" href="~/css/jquery.fancybox.min.css">
+<link rel="stylesheet" href="~/css/owl.carousel.min.css">
+<link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+<link rel="stylesheet" href="~/fonts/flaticon/font/flaticon.css">
+<link rel="stylesheet" href="~/css/aos.css">
+
+<!-- MAIN CSS -->
+<link rel="stylesheet" href="~/css/style.css">
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+<link rel="stylesheet" href="~/css/site.css" />
+<link href="https://fonts.googleapis.com/css?family=DM+Sans:300,400,700&display=swap" rel="stylesheet">
+
+<style>
+    .col-centered {
+        float: none;
+        margin: 0 auto;
+    }
+</style>
+
+
+<script type="text/javascript">
+    function fMasc(objeto, mascara) {
+        obj = objeto
+        masc = mascara
+        setTimeout("fMascEx()", 1)
+    }
+    function fMascEx() {
+        obj.value = masc(obj.value)
+    }
+    function mTel(tel) {
+        tel = tel.replace(/\D/g, "")
+        tel = tel.replace(/^(\d)/, "($1")
+        tel = tel.replace(/(.{3})(\d)/, "$1)$2")
+        if (tel.length == 9) {
+            tel = tel.replace(/(.{1})$/, "-$1")
+        } else if (tel.length == 10) {
+            tel = tel.replace(/(.{2})$/, "-$1")
+        } else if (tel.length == 11) {
+            tel = tel.replace(/(.{3})$/, "-$1")
+        } else if (tel.length == 12) {
+            tel = tel.replace(/(.{4})$/, "-$1")
+        } else if (tel.length > 12) {
+            tel = tel.replace(/(.{4})$/, "-$1")
+        }
+        return tel;
+    }
+    function mCNPJ(cnpj) {
+        cnpj = cnpj.replace(/\D/g, "")
+        cnpj = cnpj.replace(/^(\d{2})(\d)/, "$1.$2")
+        cnpj = cnpj.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+        cnpj = cnpj.replace(/\.(\d{3})(\d)/, ".$1/$2")
+        cnpj = cnpj.replace(/(\d{4})(\d)/, "$1-$2")
+        return cnpj
+    }
+    function mCPF(cpf) {
+        cpf = cpf.replace(/\D/g, "")
+        cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2")
+        cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2")
+        cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2")
+        return cpf
+    }
+    function mCEP(cep) {
+        cep = cep.replace(/\D/g, "")
+        cep = cep.replace(/^(\d{5})(\d)/, "$1-$2")
+
+        return cep
+    }
+    function mNum(num) {
+        num = num.replace(/\D/g, "")
+        return num
+    }
+</script>
+
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="how-it-works d-flex justify-content-left text-center">
+                <div class="step">
+                    <span class="number" style="background-color:#ffff80;"><span>01</span></span>
+                    <span class="caption"><b>Dados pessoais</b></span>
+                </div>
+                <div class="step">
+                    <span class="number"><span>02</span></span>
+                    <span class="caption">Dados do veículo</span>
+                </div>
+                <div class="step">
+                    <span class="number"><span>03</span></span>
+                    <span class="caption">Enviar fotos do veículo</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br /><br />
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+            <h4 class="text-center">Dados pessoais</h4>
+            <hr />
+            <div class="row">
+                <div class="col-md-4 col-centered ">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Nome" class="control-label"></label>
+                            <input asp-for="Nome" class="form-control" />
+                            <span asp-validation-for="Nome" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DataNascimento" class="control-label"></label>
+                            <input asp-for="DataNascimento" class="form-control" />
+                            <span asp-validation-for="DataNascimento" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Cpf" class="control-label"></label>
+                            <input asp-for="Cpf" class="form-control" onkeydown="javascript: fMasc( this, mCPF );" />
+                            <span asp-validation-for="Cpf" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Sexo" class="control-label"></label><br />
+                            Masculino   @Html.RadioButton("Sexo", "Masculino")
+                            Feminino @Html.RadioButton("Sexo", "Feminino")<br />
+                            <span asp-validation-for="Sexo" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="EstadoCivil" class="control-label">Estado Civil</label>
+                            <input asp-for="EstadoCivil" class="form-control" style="display:none" value="Solteiro(a)" />
+                            <select id="EstadoCivil2" class="EstadoCivil2 form-control">
+                                <option value="Solteiro" selected>Solteiro(a)</option>
+                                <option value="Casado">Casado(a)</option>
+                                <option value="Divorciado">Divorciado(a)</option>
+                                <option value="Viúvo">Viúvo(a)</option>
+                            </select>
+                            <span asp-validation-for="EstadoCivil" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Celular" class="control-label"></label>
+                            <input asp-for="Celular" class="form-control" onkeydown="javascript: fMasc( this, mTel );" />
+                            <span asp-validation-for="Celular" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Cep" class="control-label">CEP</label>
+                            <input asp-for="Cep" class="form-control" onkeydown="javascript: fMasc( this, mCEP );" />
+                            <span asp-validation-for="Cep" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Logradouro" class="control-label">Logradouro</label>
+                            <input asp-for="Logradouro" class="form-control" />
+                            <span asp-validation-for="Logradouro" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Numero" class="control-label">Numero</label>
+                            <input asp-for="Numero" class="form-control" />
+                            <span asp-validation-for="Numero" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Bairro" class="control-label">Bairro</label>
+                            <input asp-for="Bairro" class="form-control" />
+                            <span asp-validation-for="Bairro" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="Uf" class="control-label">Estado</label>
+                            <input asp-for="Uf" class="form-control" style="display:none" />
+                            <select id="Uf2" class="form-control">
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espírito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </select>
+                            <span asp-validation-for="Uf" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group">
+                            <input type="submit" value="Próximo" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    $(document).ready(function () {
+        $("select.EstadoCivil2").change(function () {
+            var selectedEstadoCivil = $(this).find('option:selected').text();
+            $("#EstadoCivil").val(selectedEstadoCivil);
+        });
+    });
+
+
+</script>
+
+<script type="text/javascript">
+    $("#Cep").focusout(function () {
+        //Início do Comando AJAX
+        $.ajax({
+            //O campo URL diz o caminho de onde virá os dados
+            //É importante concatenar o valor digitado no CEP
+            url: 'https://viacep.com.br/ws/' + $(this).val() + '/json/unicode/',
+            //Aqui você deve preencher o tipo de dados que será lido,
+            //no caso, estamos lendo JSON.
+            dataType: 'json',
+            //SUCESS é referente a função que será executada caso
+            //ele consiga ler a fonte de dados com sucesso.
+            //O parâmetro dentro da função se refere ao nome da variável
+            //que você vai dar para ler esse objeto.
+            success: function (resposta) {
+                //Agora basta definir os valores que você deseja preencher
+                //automaticamente nos campos acima.
+                $("#Logradouro").val(resposta.logradouro);
+                $("#Complemento").val(resposta.complemento);
+                $("#Bairro").val(resposta.bairro);
+                $("#Cidade").val(resposta.localidade);
+                $("#Uf2").val(resposta.uf);
+                $("#Uf").val(resposta.uf);
+                //Vamos incluir para que o Número seja focado automaticamente
+                //melhorando a experiência do usuário
+                $("#Numero").focus();
+            }
+        });
+    });
+</script>
+
+

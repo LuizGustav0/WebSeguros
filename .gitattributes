@@ -4,7 +4,8 @@
 * text=auto
 * linguist-vendored
 *.css linguist-vendored=false
-*.gs linguist-language=C#
+*.cs linguist-vendored
+*.rb linguist-language=c#
 ###############################################################################
 # Set default behavior for command prompt diff.
 #
@@ -13,7 +14,7 @@
 # Note: This is only used by command line
 ###############################################################################
 #*.cs     diff=csharp
-*c#linguist-vendored=false
+
 ###############################################################################
 # Set the merge driver for project and solution files
 #
